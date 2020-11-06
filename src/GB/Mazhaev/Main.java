@@ -237,7 +237,7 @@ public class Main {
         // В какую сторону надо перемещать элементы массива?
         if (isNegative(shift))
             {
-                // Цикл идёт влево.
+                // Цикл идёт влево
                 for (int i = 0; i > shift; i--)
                 {
                     leftShift(array);
@@ -245,7 +245,7 @@ public class Main {
             }
             else
             {
-                // Цикл идёт вправо.
+                // Цикл идёт вправо
                 for (int i = 0; i < shift; i++)
                 {
                     rightShift(array);
