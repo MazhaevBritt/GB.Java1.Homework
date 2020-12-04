@@ -7,49 +7,78 @@ import java.util.Scanner;
 public class Main {
 
     /*
-     * 1. Создать класс "Сотрудник" с полями: ФИО, должность, email, телефон, зарплата, возраст.
-     * 2. Конструктор класса должен заполнять эти поля при создании объекта.
-     * 3. Внутри класса «Сотрудник» написать метод, который выводит информацию об объекте в консоль.
-     * 4. Создать массив из 5-ти сотрудников.
-     * 5. С помощью цикла, вывести инф-цию только о сотрудниках старше 40 лет.
+     * 1. Создать классы Собака и Кот с наследованием от класса Животное.
+     * 2. Все животные могут бежать и плыть. В качестве параметра каждому методу передается длина препятствия.
+     * Результатом выполнения действия будет печать в консоль. (Например, dogBobik.run(150); -> 'Бобик пробежал 150 м.');
+     * 3. У каждого животного есть ограничения на действия (бег: кот 200 м., собака 500 м.; плавание: кот не умеет плавать, собака 10 м.).
+     * 4*. Добавить подсчет созданных котов, собак и животных.
      */
 
 
     public static void main(String[] args) {
 
-        Employee[] arrEmployees = new Employee[5];
+        Animal[] arrAnimals = new Animal[6];
+        arrAnimals[0] = new Dog("Шарик");
+        arrAnimals[0].setRunningDistance(300);
+        arrAnimals[0].setSwimmingDistance(6);
 
-        arrEmployees[0] = new Employee("Доронин Роберт Владимирович", 55,
-                "Нач.группы", 55000,
-                "88009561232", "doronin.roberto@gmail.com");
+        arrAnimals[1] = new Dog("Бобик");
+        arrAnimals[1].setRunningDistance(450);
+        arrAnimals[1].setSwimmingDistance(9);
 
-        arrEmployees[1] = new Employee("Валерий Иванович Шпак", 40,
-                "Инженер тех. без-ти", 50000,
-                "88005691232", "shpak.flat@gmail.com");
+        arrAnimals[2] = new Dog("Рокки");
+        arrAnimals[2].setRunningDistance(500);
+        arrAnimals[2].setSwimmingDistance(10);
 
-        arrEmployees[2] = new Employee("Тарасова Евгения Александровна", 25,
-                "Инженер Г.О./Ч.С.", 50000,
-                "88002356412", "tarasuk.evgesha@gmail.com");
+        arrAnimals[3] = new Cat("Крисс");
+        arrAnimals[3].setRunningDistance(150);
+        arrAnimals[3].setSwimmingDistance(0);
 
-        arrEmployees[3] = new Employee("Глинистая Индеборга Владимировна", 42,
-                "Нач. отдела кадров", 45000,
-                "88007563212", "indeborga.glina@gmail.com");
+        arrAnimals[4] = new Cat("Шейла");
+        arrAnimals[4].setRunningDistance(200);
+        arrAnimals[4].setSwimmingDistance(0);
 
-        arrEmployees[4] = new Employee("Гаврилюк Иннокентий Григорьевич", 38,
-                "Контроллер", 25000,
-                "88002369898", "kesha.gavrila@gmail.com");
+        arrAnimals[5] = new Cat("Фокс");
+        arrAnimals[5].setRunningDistance(100);
+        arrAnimals[5].setSwimmingDistance(0);
 
-        getInfoThroughArr(arrEmployees);
+        getInfoThroughArr(arrAnimals);
+        System.out.println();
+        passingObstacles(arrAnimals);
+        System.out.println();
+        countOfAnimals(arrAnimals);
 
     }
-
     // методы
-    public static void getInfoThroughArr (Employee[] arrEmployees) {
-        for (int i = 0; i < arrEmployees.length; i++) {
-            if (arrEmployees[i].getAge() > 40) {
-                arrEmployees[i].getInfoEmployee();
+
+    public static void getInfoThroughArr (Animal[] arrAnimals) {
+        for (int i = 0; i < arrAnimals.length; i++) {
+            arrAnimals[i].infoAnimal();
+        }
+    }
+
+    public static void passingObstacles (Animal[] arrAnimals) {
+        for (int i = 0; i < arrAnimals.length; i++) {
+            arrAnimals[i].run(500);
+            arrAnimals[i].swim(10);
+            System.out.println("-------------------------------------------------");
+        }
+    }
+
+    public static void countOfAnimals (Animal[] arrAnimals) {
+        int countDog = 0;
+        int countCat = 0;
+        for (int i = 0; i < arrAnimals.length; i++) {
+            if (arrAnimals[i].typeAnimal == "Собака") {
+                countDog++;
+            }
+            if (arrAnimals[i].typeAnimal == "Кот") {
+                countCat++;
             }
         }
+
+        System.out.println("Общее кол-во животных - " + arrAnimals.length + ". Кол-во собак - " + countDog
+                + ". Кол-во котов - " + countCat);
     }
 
 }
