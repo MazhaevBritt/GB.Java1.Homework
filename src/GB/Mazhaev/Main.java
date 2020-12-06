@@ -7,78 +7,73 @@ import java.util.Scanner;
 public class Main {
 
     /*
-     * 1. Создать классы Собака и Кот с наследованием от класса Животное.
-     * 2. Все животные могут бежать и плыть. В качестве параметра каждому методу передается длина препятствия.
-     * Результатом выполнения действия будет печать в консоль. (Например, dogBobik.run(150); -> 'Бобик пробежал 150 м.');
-     * 3. У каждого животного есть ограничения на действия (бег: кот 200 м., собака 500 м.; плавание: кот не умеет плавать, собака 10 м.).
-     * 4*. Добавить подсчет созданных котов, собак и животных.
+     * 1. Расширить задачу про котов и тарелки с едой.
+     * 2. Сделать так, чтобы в тарелке с едой не могло получиться отрицательного количества еды (например, в миске 10 еды,
+     * а кот пытается покушать 15-20).
+     * 3. Каждому коту нужно добавить поле сытость (когда создаем котов, они голодны).
+     * Если коту удалось покушать (хватило еды), сытость = true.
+     * 4. Считаем, что если коту мало еды в тарелке, то он ее просто не трогает, то есть не может быть наполовину сыт
+     * (это сделано для упрощения логики программы).
+     * 5. Создать массив котов и тарелку с едой, попросить всех котов покушать из этой тарелки и потом вывести информацию о сытости котов
+     * в консоль.
+     * 6. Добавить в тарелку метод, с помощью которого можно было бы добавлять еду в тарелку.
      */
 
+    public static boolean plateIsEmpty;
+    public static int countOfEaten;
 
     public static void main(String[] args) {
 
-        Animal[] arrAnimals = new Animal[6];
-        arrAnimals[0] = new Dog("Шарик");
-        arrAnimals[0].setRunningDistance(300);
-        arrAnimals[0].setSwimmingDistance(6);
+        Plate p = new Plate(50);
 
-        arrAnimals[1] = new Dog("Бобик");
-        arrAnimals[1].setRunningDistance(450);
-        arrAnimals[1].setSwimmingDistance(9);
+        Cat c = new Cat("1");
 
-        arrAnimals[2] = new Dog("Рокки");
-        arrAnimals[2].setRunningDistance(500);
-        arrAnimals[2].setSwimmingDistance(10);
+        Cat[] arrCats = new Cat[6];
+        arrCats[0] = new Cat("Крисс");
+        arrCats[1] = new Cat("Шейла");
+        arrCats[2] = new Cat("Фокс");
+        arrCats[3] = new Cat("Пушок");
+        arrCats[4] = new Cat("Амурчик");
+        arrCats[5] = new Cat("Маруся");
 
-        arrAnimals[3] = new Cat("Крисс");
-        arrAnimals[3].setRunningDistance(150);
-        arrAnimals[3].setSwimmingDistance(0);
-
-        arrAnimals[4] = new Cat("Шейла");
-        arrAnimals[4].setRunningDistance(200);
-        arrAnimals[4].setSwimmingDistance(0);
-
-        arrAnimals[5] = new Cat("Фокс");
-        arrAnimals[5].setRunningDistance(100);
-        arrAnimals[5].setSwimmingDistance(0);
-
-        getInfoThroughArr(arrAnimals);
-        System.out.println();
-        passingObstacles(arrAnimals);
-        System.out.println();
-        countOfAnimals(arrAnimals);
+        do {
+            countOfEaten = 0;
+            getInfoThroughArrCats(arrCats);
+            p.getInfoPlate();
+            foodTime(arrCats, p);
+            for (int i = 0; i < arrCats.length; i++) {
+                if (arrCats[i].getSatiety() != true) {
+                    plateIsEmpty = true;
+                } else {
+                    countOfEaten++;
+                }
+            }
+            if (plateIsEmpty == true && countOfEaten != arrCats.length) {
+                p.fillingThePlate();
+            }
+        } while (countOfEaten != arrCats.length);
+        System.out.println("Все коты поели");
 
     }
+
     // методы
 
-    public static void getInfoThroughArr (Animal[] arrAnimals) {
-        for (int i = 0; i < arrAnimals.length; i++) {
-            arrAnimals[i].infoAnimal();
+    public static void getInfoThroughArrCats (Cat[] arrCats) {
+        for (int i = 0; i < arrCats.length; i++) {
+            arrCats[i].getInfoCat();
         }
+        System.out.println("-----------------------------------");
     }
 
-    public static void passingObstacles (Animal[] arrAnimals) {
-        for (int i = 0; i < arrAnimals.length; i++) {
-            arrAnimals[i].run(500);
-            arrAnimals[i].swim(10);
-            System.out.println("-------------------------------------------------");
-        }
-    }
-
-    public static void countOfAnimals (Animal[] arrAnimals) {
-        int countDog = 0;
-        int countCat = 0;
-        for (int i = 0; i < arrAnimals.length; i++) {
-            if (arrAnimals[i].typeAnimal == "Собака") {
-                countDog++;
-            }
-            if (arrAnimals[i].typeAnimal == "Кот") {
-                countCat++;
+    public static void foodTime (Cat[] arrCats, Plate p) {
+        for (int i = 0; i < arrCats.length; i++) {
+            if (arrCats[i].getHunger() > 0) {
+                arrCats[i].eat(p);
+            } else {
+                System.out.println(arrCats[i].getName() + " не хочет есть.");
             }
         }
-
-        System.out.println("Общее кол-во животных - " + arrAnimals.length + ". Кол-во собак - " + countDog
-                + ". Кол-во котов - " + countCat);
+        System.out.println("-----------------------------------");
     }
 
 }

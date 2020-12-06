@@ -1,47 +1,55 @@
 package GB.Mazhaev;
 
-public class Cat extends Animal {
+import java.util.Random;
 
-    public Cat (String name) {
-        super.name = name;
-        super.typeAnimal = "Кот";
-    }
+public class Cat {
+    private String name;
+    private boolean satiety;
+    private int hunger;
+    Random random = new Random();
 
-    @Override
-    public void setRunningDistance (int runningDistance) {
-        if (runningDistance >= 0 && runningDistance <= 200) {
-            super.runningDistance = runningDistance;
-        } else {
-            System.out.println("Коты могут пробегать не более 200 метров!");
+    public Cat(String name) {
+        this.name = name;
+        this.hunger = random.nextInt(25);
+        if (hunger == 0) {
+            this.satiety = true;
+        } else  {
+            this.satiety = false;
         }
     }
 
-    @Override
-    public void setSwimmingDistance (int swimmingDistance) {
-        if (swimmingDistance == 0) {
-            super.swimmingDistance = swimmingDistance;
+    public void getInfoCat() {
+        if (satiety != true) {
+            System.out.println(name + ": голод - " + hunger + "/сытость - " + satiety);
         } else {
-            System.out.println("Коты не любят плавать!");
+            System.out.println(name + " сытость - " + satiety);
         }
     }
 
-    @Override
-    public void infoAnimal() {
-        System.out.println(name + " - " + " бег: " + runningDistance + " / плаванье: не умеет");
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public void run(int distance) {
-        if (runningDistance >= distance) {
-            System.out.println(name + " пробежал дистанцию в " + distance + " метров.");
+    public boolean getSatiety() {
+        return satiety;
+    }
+
+    public int getHunger () {
+        return hunger;
+    }
+
+    public boolean eat(Plate p) {
+        if (hunger <= p.amountOfFood) {
+            System.out.println(name + " поел.");
+            p.amountOfFood -= hunger;
+            hunger = 0;
+            satiety = true;
+            return true;
         } else {
-            System.out.println(name + " не смог пробежать дистанцию в " + distance + " метров.");
+        System.out.println(name + " не смог поесть.");
+        satiety = false;
+        return false;
         }
     }
-
-    @Override
-    public void swim(int distance) {
-        System.out.println(name + " утонул, так как не умеет плавать!");
-    }
-
 }
+
